@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <style>
+        .topic{
+            text-align: center;
+        }
+        .whole{
+            border: 3px groove rgb(114, 24, 203);
+            padding:2%;
+            margin: 0% 15% 0% 23%;
+            width:50%;
+            background-color: rgb(123, 67, 255);
+        }
+    .board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        border: 5px groove black;
+       box-shadow: 10px 10px 3px rgb(75, 75, 75);
+    
+    }
+    
+    .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        cursor: pointer;
+        border: 1px solid black;
+        background-color: #ffffff;
+        transition: background-color 0.1s step-end;
+    }
+    
+    .cell.X {
+        color: #0b8e02;
+    }
+    
+    .cell.O {
+        color: #b60202;
+    }
+    
+    .cell:hover {
+        background-color: #a0c3ff;
+    }
+    body{
+  background-color: #E63946;
+}
+
+
+h1{
+  text-align:center;
+  text-transform: uppercase;
+  color: #F1FAEE; 
+  font-size: 3rem;
+}
+
+.roller{
+  height: 3rem;
+  line-height: 4rem;
+  position: relative;
+  overflow: hidden; 
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  color: #1D3557;
+}
+
+
+#spare-time{
+  font-size: 1rem;
+  font-style: italic;
+  letter-spacing: 1rem;
+  color: #A8DADC;
+  
+}
+
+.roller #rolltext {
+  position: absolute;
+  top: 0;
+  animation: slide 6s infinite;  
+}
+
+@keyframes slide {
+  0%{
+    top:0;
+  }
+  25%{
+    top: -4rem;    
+  }
+  50%{
+    top: -8rem;
+  }
+  75%{
+    top: -12.25rem;
+  }
+}
+
+@media screen and (max-width: 600px){
+  h1{
+  text-align:center;
+  text-transform: uppercase;
+  color: #F1FAEE; 
+  font-size: 2.125rem;
+}
+  
+  .roller{
+  height: 2.6rem; 
+  line-height: 2.125rem;  
+  }
+  
+  #spare-time {
+    font-size: 1.5rem;
+    letter-spacing: 0.001rem;
+  }
+  
+  .roller #rolltext {  
+  animation: slide-mob 5s infinite;  
+}
+  
+  @keyframes slide-mob {
+  0%{
+    top:0;
+  }
+  25%{
+    top: -2.125rem;    
+  }
+  50%{
+    top: -4.25rem;
+  }
+  72.5%{
+    top: -6.375rem;
+  }
+}
+}
+    </style>
+</head>
+<body>
+    <div class="topic">
+        <div class="main">
+         <h1>Tic-tac-toe 
+            <div class="roller">
+              <span id="rolltext">Strategize<br/>Capture<br/>Dominate<br/>
+              <span id="spare-time">Accept the Dare, Defeat with Flair!</span><br/>
+            </div>
+         </h1>
+              
+        </div>
+            
+    </div>
+  <div class="whole">
+    <div class="board">
+        <div class="cell" id="cell" onclick="makeMove(0)"></div>
+        <div class="cell" id="cell" onclick="makeMove(1)"></div>
+        <div class="cell" id="cell" onclick="makeMove(2)"></div>
+        <div class="cell" id="cell" onclick="makeMove(3)"></div>
+        <div class="cell" id="cell" onclick="makeMove(4)"></div>
+        <div class="cell" id="cell" onclick="makeMove(5)"></div>
+        <div class="cell" id="cell" onclick="makeMove(6)"></div>
+        <div class="cell" id="cell" onclick="makeMove(7)"></div>
+        <div class="cell" id="cell" onclick="makeMove(8)"></div>
+    </div>
+</div>
+<footer>
+    
+    <center>Developed by DEEPAKRAJ</center>
+</footer>
+    <script>
+        var curplayer = "X";
+        var moves = 0;
+        var cells = document.getElementsByClassName("cell");
+        
+        function makeMove(i) {
+            var cell = cells[i];
+        
+            
+            if (cell.innerText !== "") {
+                return;
+            }
+        
+            cell.innerText = curplayer;
+            cell.classList.add(curplayer);
+        
+            
+            if (checkWin(curplayer)) {
+                alert(curplayer + " wins!");
+                resetBoard();
+                return;
+            }
+        
+            
+            moves++;
+            if (moves === cells.length) {
+                alert("It's a draw!");
+                resetBoard();
+                return;
+            }
+        
+        
+            curplayer = curplayer === "X" ? "O" : "X";
+        }
+        
+        
+        function checkWin(player) {
+            var chance = [
+                [0, 1, 2],
+                [0, 3, 6],
+                [0, 4, 8],
+                [1, 4, 7],
+                [2, 5, 8],
+                [2, 4, 6],
+                [3, 4, 5],
+                [6, 7, 8]  
+            ];
+        
+            for (var i = 0; i < chance.length; i++) {
+                var combo = chance[i];
+                if (
+                    cells[combo[0]].innerText === player &&
+                    cells[combo[1]].innerText === player &&
+                    cells[combo[2]].innerText === player
+                ) {
+                    return true;
+                }
+            }
+        
+            return false;
+        }
+        
+        function resetBoard() {
+            curplayer = "X";
+            moves = 0;
+            for (var i = 0; i < cells.length; i++) {
+                cells[i].innerText = "";
+                cells[i].classList.remove("X");
+                cells[i].classList.remove("O");
+            }
+        }
+        </script>
+</body>
+</html>
